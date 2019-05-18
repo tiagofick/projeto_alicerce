@@ -4,9 +4,9 @@
  * Data: 04/05/2019
  * Descrição: Configurações do RequireJS
  */
-
+http://localhost/tiagofick_github/
 // PATH raiz onde se encontram todos os JS
-var path = '/tiagofick/sistemas/assets/js';
+var path = '/tiagofick_github/sistemas/assets/js';
 
 // Separei os JS's em duas pastas: libs (bibliotecas de terceiros) e scripts (escritos por mim)
 var libs = {
