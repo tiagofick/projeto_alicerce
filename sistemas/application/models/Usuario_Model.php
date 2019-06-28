@@ -3,7 +3,7 @@
  * @author Tiago Fick <contato@tiagofick.com.br>
  * @version 1.0
  * Data: 20/03/2019
- * Descrição: Model responsável pelas operações de login e usuarios no DB
+ * Descrição: Model responsável pelas operações de login/validação e cadastro de usuarios
  */
 
 class Usuario_Model extends CI_Model {

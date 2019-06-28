@@ -2,8 +2,9 @@
 /**
  * @author Tiago Fick <contato@tiagofick.com.br>
  * @version 1.0
- * Data: 27/04/2018
- * Descrição: View Principal que exibe os links para os Sistemas criados dentro da aplicação */
+ * Data: 27/04/2019
+ * Descrição: View Principal que exibe os links para os Sistemas criados dentro da aplicação
+ */
 
 echo "Link para a lib fontawesome. Ícones utilizados no projeto: ";
 ?>

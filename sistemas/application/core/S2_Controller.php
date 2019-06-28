@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author Tiago Fick <contato@tiagofick.com.br>
  * @version 1.0
  * Data: 20/03/2019
- * Descrição: Controller personalizado do CI para o sistema Controle Financeiro
+ * Descrição: Controller personalizado do CI para o Sistema 2
  */
 
 class S2_Controller extends MY_Controller {

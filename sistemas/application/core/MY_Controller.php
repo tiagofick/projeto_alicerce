@@ -4,8 +4,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * @author Tiago Fick <contato@tiagofick.com.br>
  * @version 1.0
- * Data: 08/03/2019
- * Descrição: Controller criado no core para controle de segurança e permissões
+ * Data: 20/03/2019
+ * Descrição: Controller presonalizado principal o mesmo extende o core para centralizar rotinas comuns ao "ecosistema" da aplicação.
+ *			  Para criar novos controllers e aplicar a rotina de verificação de usuario logado, ao invés de extender CI_Controller, basta
+ *			  extender a classe MY_Controller
  */
 
 class MY_Controller extends CI_Controller {
