@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/tiagofick_github/sistemas/';
+$config['base_url'] = 'http://localhost/projeto_alicerce/sistemas/';
 
 /*
 |--------------------------------------------------------------------------
@@ -324,7 +324,7 @@ $config['cache_query_string'] = FALSE;
 | https://codeigniter.com/user_guide/libraries/encryption.html
 |
 */
-$config['encryption_key'] = 'tiagoficksistemas';
+$config['encryption_key'] = '11d2f530e0949b62693b1475b0d75f4cbbc15189ed2525121dfc7c9611a18cc54bcdd9298a4d1c3d469027b2a6e628ce8b8874a6a141ec4e050e2ebb2e538289';
 
 /*
 |--------------------------------------------------------------------------
@@ -378,11 +378,11 @@ $config['encryption_key'] = 'tiagoficksistemas';
 |
 */
 $config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
+$config['sess_cookie_name'] = 'ci_session_br_com_tiagofick';
+$config['sess_expiration'] = 600;
 $config['sess_save_path'] = sys_get_temp_dir();
 $config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300;
+$config['sess_time_to_update'] = 120;
 $config['sess_regenerate_destroy'] = FALSE;
 
 /*
@@ -533,7 +533,7 @@ $config['proxy_ips'] = '';
 |
 | Suponhamos que eu esteja criando dois sistemas distintos nessa mesma estrutura e ambos possuem login:
 | application/core/
-|               | --- MY_Controller extends CI_Controller (> Aqui serão criadas as rotinas, como por exemplo a de login, comuns a todos os sistemas criados. Sistema1, Sistema2, etc)
+|               | --- MY_Controller extends CI_Controller (> Aqui serão criadas as rotinas, como por exemplo a de login, comuns a todos os sistemas criados. controlefinanceiro, Sistema2, etc)
 |               | --- S1_Controller extends MY_Controller (> Aqui serão criadas rotinas comuns aos controllers do Sistema 1)
 |               | --- S2_Controller extends MY_Controller (> Aqui serão criadas rotinas comuns aos controllers do Sistema 2)
 |
@@ -542,7 +542,7 @@ $config['proxy_ips'] = '';
 | Considerando o exemplo acima:
 |
 | application/controller/
-|               | --- Sistema1/
+|               | --- controlefinanceiro/
 |                           | --- home.php (class home extends S1_Controller { ... } )
 |
 */

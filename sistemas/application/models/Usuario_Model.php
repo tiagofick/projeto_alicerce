@@ -3,14 +3,14 @@
  * @author Tiago Fick <contato@tiagofick.com.br>
  * @version 1.0
  * Data: 20/03/2019
- * Descrição: Responsável pelas operações de login e usuarios no DB
+ * Descrição: Model responsável pelas operações de login e usuarios no DB
  */
 
 class Usuario_Model extends CI_Model {
 
     private $nome;
     private $email;
-    private $usuario;
+    private $nome_usuario;
     private $senha;
     private $salt = ' "!@#$%&*()_+=/;:?|/<>][{}_-´`abcdefghijklmnopqrstuwxz1234567890áâàäéêèëíìïóôòöúûùüÁÂÀÉÊÈÍÎÌÏÓÔÒÚÛÙÜ';
 
@@ -19,7 +19,7 @@ class Usuario_Model extends CI_Model {
 
         $this->nome    = $post['nome'];
         $this->email   = $post['email'];
-        $this->usuario = $post['usuario'];
+        $this->nome_usuario = $post['usuario'];
         $this->senha   = $post['senha'];
 
         $formValidationRules = [
@@ -35,7 +35,7 @@ class Usuario_Model extends CI_Model {
             $arrayUsuario = [
                 'nome' => $this->nome,
                 'email' => $this->email,
-                'usuario' => $this->usuario,
+                'usuario' => $this->nome_usuario,
                 'senha' => hash('sha512', $this->senha.$this->salt)
             ];
 
@@ -66,13 +66,20 @@ class Usuario_Model extends CI_Model {
         $this->db->where(['senha' => $senha]);
         $query = $this->db->get('sis_usuario')->result();
 
-        if(is_array($query) && !empty($query)) {
-            $this->session->set_userdata('br.com.sistemas', 'br.com.sistemas_logado');
+        if(is_array($query) && !empty($query) && count($query) === 1) {
+            $this->session->set_userdata('br.com.tiagofick_sistemas', 'br.com.tiagofick_sistemas_logado');
+            $this->session->set_userdata('br.com.tiagofick_sistemas_usuario', $query[0]->id_usuario);
             return true;
         } else {
             return false;
         }
 
     }
+
+	public function sair() {
+		$this->session->unset_userdata('br.com.tiagofick_sistemas');
+		$this->session->unset_userdata('br.com.tiagofick_sistemas_usuario');
+		unset($this->usuario);
+	}
 
 }

@@ -14,8 +14,8 @@ class MY_Controller extends CI_Controller {
 	{
 		parent::__construct();
 
-		$logado = $this->session->userdata("br.com.sistemas");
-		if ($logado != 'br.com.sistemas_logado')
+		$logado = $this->session->userdata("br.com.tiagofick_sistemas");
+		if ($logado != 'br.com.tiagofick_sistemas_logado')
 		{
 			redirect(base_url('login'));
 		}

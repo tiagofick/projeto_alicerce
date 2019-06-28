@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/libs/allicons.css')?>">
 
     <?php // CSS da página ?>
+    <link id="css_global" rel="stylesheet" type="text/css" v-bind:href="css_global">
+    <link id="css_sistema" rel="stylesheet" type="text/css" v-bind:href="css_sistema">
     <link id="css_page" rel="stylesheet" type="text/css" v-bind:href="css_page">
 </head>
 <body>

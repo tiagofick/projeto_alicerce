@@ -12,6 +12,7 @@ class Login extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('Usuario_Model');
 	}
 
 	public function index()
@@ -22,7 +23,6 @@ class Login extends CI_Controller {
 	public function entrar()
 	{
 		$post = $this->input->post(null, true);
-        $this->load->model('Usuario_Model');
         $return = $this->Usuario_Model->login($post);
 
         if($return === true) {
@@ -33,7 +33,7 @@ class Login extends CI_Controller {
 	}
 
 	public function sair() {
-		$this->session->unset_userdata('br.com.sistemas');
+		$this->Usuario_Model->sair();
 		redirect(base_url('login'));
 	}
 

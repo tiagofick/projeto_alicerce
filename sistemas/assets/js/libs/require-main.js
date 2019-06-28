@@ -4,15 +4,17 @@
  * Data: 04/05/2019
  * Descrição: Configurações do RequireJS
  */
-http://localhost/tiagofick_github/
+
 // PATH raiz onde se encontram todos os JS
-var path = '/tiagofick_github/sistemas/assets/js';
+var path = '/projeto_alicerce/sistemas/assets/js';
 
 // Separei os JS's em duas pastas: libs (bibliotecas de terceiros) e scripts (escritos por mim)
 var libs = {
-	jquery:    path+'/libs/jquery-3.3.1.min',
-	vue:       path+'/libs/vue.min',
-	bootstrap: path+'/libs/bootstrap.bundle.min'
+	jquery:     path+'/libs/jquery-3.3.1.min',
+	vue:        path+'/libs/vue.min',
+	bootstrap:  path+'/libs/bootstrap.bundle.min',
+	jquerymask: path+'/libs/jquery.mask.min',
+	sistema:    path+'/scripts/sistema'
 };
 
 // Objeto com as configurações do RequireJS
@@ -27,7 +29,10 @@ var config = {
 		 * */
 		bootstrap: {
 			deps: ['jquery']
-		}
+		},
+        jquerymask: {
+		    deps: ['jquery']
+        }
 	}
 };
 
@@ -78,6 +83,7 @@ for(var i = 0; i < sistemas.length; i++) {
 	// Se encontrar o nome do sistema na url, adicione o arquivo "path+/scripts/nome_sistema/nome_do_controller.js" ao loadjs
 	if(url.indexOf(sistemas[i]) != -1) {
 		loadjs.push(sistemas[i]+"/"+arquivo[arquivo.indexOf(sistemas[i])+1]);
+		loadjs.push(sistemas[i]+"/"+arquivo[arquivo.indexOf(sistemas[i])]);
 		var sistema_encontrado = true;
 		break;
 	}
@@ -86,11 +92,11 @@ for(var i = 0; i < sistemas.length; i++) {
 
 /*
 * Se acessarmos a tela do link "Sistema 1", que carrega a Home do Sistema 1, podemos notar que irá carregar um arquivo também chamado
-* de home.js, porém, se observar o caminho desse arquivo verá que está apontando para "path+/scripts/Sistema1/home.js"
-* Nesse momento buscamos um JS dentro da pasta "Sistema1".
+* de home.js, porém, se observar o caminho desse arquivo verá que está apontando para "path+/scripts/controlefinanceiro/home.js"
+* Nesse momento buscamos um JS dentro da pasta "controlefinanceiro".
 *
-* Com o for acima eu percorri meu array (linha 58) e encontrei em minha URL (linha 46) um Sistema chamado de "Sistema1".
-* Se encontrar o Sistema1, busque na pasta dele o JS a carregar e atribua true a variável sistema_encontrado, caso contrario,
+* Com o for acima eu percorri meu array (linha 58) e encontrei em minha URL (linha 46) um Sistema chamado de "controlefinanceiro".
+* Se encontrar o controlefinanceiro, busque na pasta dele o JS a carregar e atribua true a variável sistema_encontrado, caso contrario,
 * a variável "sistema_encontrado" permanece = false e vamos para o if abaixo
 *
 * que em caso afirmativo seta o caminho do js para a pasta "sistema" que é a pasta onde guardamos nossos scripts sem vínculo a nenhum
@@ -107,12 +113,13 @@ if(sistema_encontrado !== true) {
 * 	2. Função que define cria uma instância e define os módulos
 * */
 requirejs(loadjs, function($, Vue){
+    // console.log(loadjs);
 	/*
 	* loadjs possui: ["jquery", "vue", "bootstrap", "sistema/pagina_que_estou_carregando"]
 	* Então a string do index = 3 eu "quebro" pela barra, removo o último, ítem e jogo o valor na variável modulo
 	* */
-	var nome_sistema = loadjs[3].split('/')[0];
-	var modulo = loadjs[3].split('/').pop();
+	var nome_sistema = loadjs[5].split('/')[0];
+	var modulo = loadjs[5].split('/').pop();
 
 	// O objeto window do possui uma propriedade com o nome da nossa página
 	var objeto = window[modulo];
@@ -129,18 +136,26 @@ requirejs(loadjs, function($, Vue){
 	* Para melhor entendimento, visualize os arquivos:
 	*
 	* assets\js\scripts\sistema\home.js
-	* assets\js\scripts\Sistema1\home.js
+	* assets\js\scripts\controlefinanceiro\home.js
 	* assets\js\scripts\Sistema2\home.js
 	* */
 
 	// Aqui, indico via VueJS qual o css que devo carregar
-	new Vue({
-		el: '#css_page',
+	var vueCss = new Vue({
+		el: 'head',
 		data: {
+			css_global: this.path.replace('js', 'css/scripts/global.css'),
+			css_sistema: this.path.replace('js', 'css/scripts/'+nome_sistema+'/'+nome_sistema+'.css'),
 			css_page: this.path.replace('js', 'css/scripts/'+nome_sistema+'/'+modulo+'.css')
 		}
 	});
 
-	// var css = this.path.replace('js', 'css/scripts/'+nome_sistema+'/'+modulo+'.css');
-	// $('#css_page').attr('href', css)
+	$('.mask-money').mask(
+        '#.##0,00',
+        {
+            reverse: true,
+            placeholder: '0,00'
+        }
+    );
+
 });
