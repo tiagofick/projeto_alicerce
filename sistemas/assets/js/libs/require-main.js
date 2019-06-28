@@ -26,6 +26,7 @@ var config = {
 	shim: {
 		/*  Aqui eu digo que o Bootstrap é dependente do jQuery, ou seja,
 		 * apenas irá carregar após o carregameto do Jquery ser concluído
+		 * O mesmo é estipulado para o jquerymask
 		 * */
 		bootstrap: {
 			deps: ['jquery']
@@ -36,48 +37,46 @@ var config = {
 	}
 };
 
-// Com o RequireJS Carregado e as configurações definidas, aplicamos as mesmas através do método config
+// Com o RequireJS Carregado e as configurações definidas, aplicamos as mesmas através do método config que recebe o objeto com as configurações
 requirejs.config(config);
 
-// AQUI COMEÇA A CUSTIMIZAÇÃO DO PROJETO
-
-// URL que está sendo carregada
+// URL que está sendo carregada ela aplicação
 var url = document.URL;
 
-// Fragmento a url em um array para ter acesso ao nome do controller e método carregado
+// Fragmentada a url em um array para ter acesso ao nome do controller e método carregado
 var arquivo = url.split('/');
 
 // Declaro um array vazio que, posteriormente, irá receber todos os JS's (libs e scripts) que pretendo carregar para a tela corrente
 var loadjs = [];
 
 /*
-* Array que irá receber os nomes dos sistemas que meu projeto irá abranger (var sistemas)
+* A aplicação serve como uma espécie de plataforma para n aplicações e o array sistemas irá receber os nomes dos sistemas que meu projeto irá abranger
 * para que o require busque quais arquivos devem ser carregados de acordo com a Tela/Sistema acessada(o).
 *
-* Arquivos JS específicos de um dos sistema serão sempre salvos no caminho "path+/scripts/nome_do_sistema/nome_controller"
-* Arquivos desenvolvidos para o projeto (tela de login, por exemplo, ou a home do projeto que possui os links para os diversos sistemas),
-* devem ser salvos dentro da pasta "path+/scripts/sistema".
+* Arquivos JS específicos de um dos sistemas sempre devem ser salvos no caminho "path+/scripts/nome_do_sistema/nome_controller.js"
+* Arquivos desenvolvidos para o projeto (tela de login, por exemplo), devem ser salvos dentro da pasta "path+/scripts/sistema".
 * */
-
-// Nome dos Sistemas, terão o mesmo nome das pastas
 var sistemas = ['Sistema1', 'Sistema2'];
 
-// Váriável que usarei como uma "flag" para identificar qual a pasta que devo buscar o script
+// Boolean que irá indicar ao loadjs se existem o nome do sistema na url e qual o js que irei carregar
 var sistema_encontrado = false;
 
-// Adiciono ao array as minhas libs definidas no topo do código (no meu caso, jquery, vue, bootstrap)
+// Adiciona inicialmente ao array de arquivos as libs informadas na linha 12 deste arquivo
 for(var lib in libs) {
 	loadjs.push(lib);
 }
 
 /*
-* Abra a ferramenta do desenvolvedor (Google Chrome), ou firebug, ou similar e confira na aba Network os exemplos a seguir:
+* Abra a ferramenta de desenvolvedor (Google Chrome), ou firebug, ou similar e confira na aba Network os exemplos a seguir:
 *
 * 	1. A tela de login: Carrega um arquivo "path+/scripts/sistema/login.js"
 * 	2. Passando pelo login, temos carregado home.js, também na pasta "path+/scripts/sistema/"
 *
-* Tenho "Sistemas1", "Sistemas2", mas não tenho uma aplicação chamada "sistema". Sistema nada mais é o que, anteriormente, eu me referia como Projeto.
-* Então no for varro meu array e comparo com a posição da url que deveria ter o nome de um dos sistemas
+* Tenho "Sistemas1", "Sistemas2", mas não tenho uma aplicação chamada "sistema". Sistema nada mais é o que, anteriormente, eu me referia como Projeto (linha 57, por exemplo).
+* No laço a seguir, percorro meu array e comparo com a posição da url que deveria ter o nome de um dos sistemas, se coincidir:
+* - atribui o valor true a variávvel sistema_encontrado
+* - adicionado o nome do arquivo ao loadjs
+* - Caso contrário, não faça nada e vá para a próxima iteração do for
 * */
 for(var i = 0; i < sistemas.length; i++) {
 	// Se encontrar o nome do sistema na url, adicione o arquivo "path+/scripts/nome_sistema/nome_do_controller.js" ao loadjs
@@ -87,20 +86,16 @@ for(var i = 0; i < sistemas.length; i++) {
 		var sistema_encontrado = true;
 		break;
 	}
-	// Caso contrário, não faça nada e vá para a próxima interação do for
 }
 
 /*
 * Se acessarmos a tela do link "Sistema 1", que carrega a Home do Sistema 1, podemos notar que irá carregar um arquivo também chamado
-* de home.js, porém, se observar o caminho desse arquivo verá que está apontando para "path+/scripts/controlefinanceiro/home.js"
-* Nesse momento buscamos um JS dentro da pasta "controlefinanceiro".
+* de home.js, porém, se observar o caminho desse arquivo verá que está apontando para "path+/scripts/Sistema1/home.js". Isso porque a aplicação
+* encontrou um sistema chamado Sistema1 e um método home, logo, buscou na pasta Sistema1 o arquivo js referente a essa tela, nesse caso a home.
 *
-* Com o for acima eu percorri meu array (linha 58) e encontrei em minha URL (linha 46) um Sistema chamado de "controlefinanceiro".
-* Se encontrar o controlefinanceiro, busque na pasta dele o JS a carregar e atribua true a variável sistema_encontrado, caso contrario,
-* a variável "sistema_encontrado" permanece = false e vamos para o if abaixo
-*
-* que em caso afirmativo seta o caminho do js para a pasta "sistema" que é a pasta onde guardamos nossos scripts sem vínculo a nenhum
-* sistema específico
+* Se o sistema não for encontrado, significa que não estamos acessando um de nossos Sistemas, ou nem ao menos passamos pelo login neste caso,
+* setamos o caminho do js para a pasta "sistema", que é a pasta onde guardamos nossos scripts sem vínculo a nenhum sistema específico.
+* Em resumo, não estou acessando nem Sistema1 e nem Sistema 2
 * */
 if(sistema_encontrado !== true) {
 	loadjs.push('sistema/'+arquivo[arquivo.indexOf('sistemas')+1]);
@@ -110,37 +105,40 @@ if(sistema_encontrado !== true) {
 * Definidas as configurações e arquivos a serem carregados, vamos ao requirejs:
 * Parâmtros:
 * 	1. Array de arquivos a carregar
-* 	2. Função que define cria uma instância e define os módulos
+* 	2. Função que irá definir os módulos a serem carregados
 * */
 requirejs(loadjs, function($, Vue){
-    // console.log(loadjs);
+    console.log(loadjs);
 	/*
-	* loadjs possui: ["jquery", "vue", "bootstrap", "sistema/pagina_que_estou_carregando"]
-	* Então a string do index = 3 eu "quebro" pela barra, removo o último, ítem e jogo o valor na variável modulo
+	* loadjs possui: ["jquery", "vue", "bootstrap", "jquerymask", "sistema", "sistema/pagina_que_estou_carregando"]
+	* Então a string do index = 5 eu "quebro" pela barra, removo o último, ítem e jogo o valor na variável modulo
+	* porque...
 	* */
 	var nome_sistema = loadjs[5].split('/')[0];
 	var modulo = loadjs[5].split('/').pop();
 
-	// O objeto window do possui uma propriedade com o nome da nossa página
+	// ...o objeto window do possui uma propriedade com o nome da nossa página...
 	var objeto = window[modulo];
 
-	// Então eu crio um novo objeto apartir disso utilizando Object.create()
+	// ...então eu crio uma nova instância a partir dele utilizando Object.create()
 	var Instance = Object.create(objeto);
 
-	// Nessa nova instância eu chamo o método init passando como parâmetro um objeto jquery e o objeto Vue ambos carregados nas libs
+	/*
+	 * Nessa nova instância eu acesso o método init, que todos os JSs que eu criar deverão ter, por se tratar de um método de entrada
+	 * através dele irei passr por parâmetro o objeto jQuery com o conteúdo da página e um objeto chamado Vue com a instância do mesmo.
+	 * A partir disso terei acesso ao dom podendo utilizar o jquery e o vue para manipulação dos objetos
+ 	 * */
 	Instance.init($(document), Vue);
 
 	/*
-	* Deixo um método chamado init como ponto de partida para o conteudo carregado, então todos meus arquivos JS deverão possuir um método init
-	*
 	* Para melhor entendimento, visualize os arquivos:
 	*
 	* assets\js\scripts\sistema\home.js
-	* assets\js\scripts\controlefinanceiro\home.js
+	* assets\js\scripts\Sistema1\home.js
 	* assets\js\scripts\Sistema2\home.js
 	* */
 
-	// Aqui, indico via VueJS qual o css que devo carregar
+	// Em posse dos nomes de sistema e tela que irei acessar, posso carregar os CSSs dinamicamente através do vue utilizando sua reatividade
 	var vueCss = new Vue({
 		el: 'head',
 		data: {
@@ -150,6 +148,11 @@ requirejs(loadjs, function($, Vue){
 		}
 	});
 
+	/*
+	 * E aproveito para definir em um só local que os campos de valores monetários (input's HTML) que possuirem a class mask-money
+	 * deverão ter seu conteúdo formatado conforme eu estipular, pois o requireJS irá executar tudo que estiver aqui nessa função
+	 * que é o segundo parâmetro do objeto "requirejs"
+	 * */
 	$('.mask-money').mask(
         '#.##0,00',
         {

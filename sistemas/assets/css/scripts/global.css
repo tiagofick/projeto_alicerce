@@ -1,3 +1,10 @@
+/**
+ * @author Tiago Fick <contato@tiagofick.com.br>
+ * @version 1.0
+ * Data: 24/06/2019
+ * Descrição: CSS Global utilizado por todas as telas da aplicação
+ */
+
 input[type="text"].mask-money {
 	text-align: right;
 }
