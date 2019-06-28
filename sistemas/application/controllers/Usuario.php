@@ -26,7 +26,11 @@ class Usuario extends MY_Controller {
 		$post = $this->input->post(null, true);
 		$return = $this->Usuario_Model->salvar($post);
 
-		return $return;
+		if($return !== true) {
+			return false;
+		} else {
+			echo "Usuario Cadastrado com Sucesso";
+		}
 	}
 
 }

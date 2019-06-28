@@ -15,10 +15,6 @@ $attrSenha       = ['id' => 'senha', 'name' => 'senha', 'type' => 'password', 'p
 $attrRepeteSenha = ['id' => 'repsenha', 'name' => 'repsenha', 'type' => 'password', 'placeholder' => 'Repita a senha'];
 $attrBtnSubmit   = ['id' => 'btnCadastrar', 'name' => 'btnCadastrar', 'value' => 'Cadastrar'];
 
-?>
-<div id="app">{{ mensagem }}</div>
-<?php
-
 echo form_open($action, $attrForm);
 echo     form_input($attrNome);
 echo     form_input($attrEmail);

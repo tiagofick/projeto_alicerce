@@ -3,7 +3,7 @@
  * @author Tiago Fick <contato@tiagofick.com.br>
  * @version 1.0
  * Data: 27/04/2018
- * Descrição: View Principal que exibe os links para os  */
+ * Descrição: View Principal que exibe os links para os Sistemas criados dentro da aplicação */
 
 echo "Link para a lib fontawesome. Ícones utilizados no projeto: ";
 ?>
@@ -18,6 +18,9 @@ Exemplo de Botão
 <br /> <br />
 
 <div id="teste">{{mensagem}}</div>
+<br /> <br />
+
+<a href="<?php echo base_url('Usuario/novo')?>">Cadastrar Usuário</a>
 <br /> <br />
 
 <a href="<?php echo base_url('Sistema1/home')?>">Sistema 1</a>
