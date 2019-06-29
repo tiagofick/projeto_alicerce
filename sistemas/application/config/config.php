@@ -533,16 +533,16 @@ $config['proxy_ips'] = '';
 |
 | Suponhamos que eu esteja criando dois sistemas distintos nessa mesma estrutura e ambos possuem login:
 | application/core/
-|               | --- MY_Controller extends CI_Controller (> Aqui serão criadas as rotinas, como por exemplo a de login, comuns a todos os sistemas criados. controlefinanceiro, Sistema2, etc)
+|               | --- MY_Controller extends CI_Controller (> Aqui serão criadas as rotinas, como por exemplo a de login, comuns a todos os sistemas criados. Sistema1, Sistema2, etc)
 |               | --- S1_Controller extends MY_Controller (> Aqui serão criadas rotinas comuns aos controllers do Sistema 1)
 |               | --- S2_Controller extends MY_Controller (> Aqui serão criadas rotinas comuns aos controllers do Sistema 2)
 |
 | Inicialmente crio MY_Controller que extende a CI_Controller e a partir daí, na minha classe home, por exemplo, vou extender a classe referente ao sistema que estou criando
 |
-| Considerando o exemplo acima:
+| Considerando o citado acima, vamos a um exemplo:
 |
 | application/controller/
-|               | --- controlefinanceiro/
+|               | --- Sistema1/
 |                           | --- home.php (class home extends S1_Controller { ... } )
 |
 */
